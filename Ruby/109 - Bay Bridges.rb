@@ -2,8 +2,8 @@
 # Make basic Bridge class for easier data management
 class Bridge
   def initialize(pointA, pointB, name)
-    @pointA_X, @pointA_Y = pointA[0].to_f, pointA[1].to_f
-    @pointB_X, @pointB_Y = pointB[0].to_f, pointB[1].to_f
+    @pointA_X, @pointA_Y = pointA[0], pointA[1]
+    @pointB_X, @pointB_Y = pointB[0], pointB[1]
     @name = name
   end
   
@@ -16,7 +16,7 @@ class Bridge
   end
   
   def name
-    "#{@name}"
+    @name.to_s
   end
   
   # Example output: "1: ([37.788353, -122.387695], [37.829853, -122.294312])"
@@ -26,13 +26,18 @@ class Bridge
 end
 
 # Input data
-test_cases = []
-open(ARGV[0]) do |f|
-  while (line = f.gets)
-    points = []
-    line.scan(/(-?\d*\.\d*)/) do |m|
-      points << m[0].to_f
-    end
-    test_cases << [points[0..1], points[2..3]]
+input_data = []
+open(ARGV[0]).each_line do |line|
+  points = []
+  name = ""
+  
+  # name
+  line.match(/\A(\d+):/) { |match| name = match[0] }
+  
+  # points
+  line.scan(/(-?\d*\.\d*)/) do |match|
+    points << match[0].to_f
   end
+  
+  input_data << Bridge.new(points[0..1], points[2..3], name)
 end
