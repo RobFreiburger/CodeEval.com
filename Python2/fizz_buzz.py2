@@ -1,0 +1,30 @@
+import sys
+import re
+test_cases = open(sys.argv[1], 'r')
+for test in test_cases:
+    inputs = re.split('\D+', test)
+    
+    if len(inputs) != 4:
+        continue
+    else:
+        result = []
+        fizz, buzz, n = int(inputs[0]), int(inputs[1]), int(inputs[2])
+        
+        for i in range(1, n + 1):
+            if ((i % fizz == 0) or (i % buzz == 0)):
+                string = ''
+                
+                if i % fizz == 0:
+                    string = string + 'F'
+                    
+                
+                if i % buzz == 0:
+                    string = string + 'B'
+                    
+                result.append(string)
+            else:
+                result.append(i)
+                
+        print ' '.join(str(x) for x in result)
+        
+test_cases.close()
